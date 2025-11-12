@@ -115,11 +115,10 @@ O serviço de pratos usa Redis para cache:
 4. Cliente inclui token no header: `Authorization: Bearer TOKEN`
 5. Guards validam o token em cada requisição protegida
 
-### Hierarquia de Roles
+### Hierarquia dos Grupos de Usuários
 
 ```
 administrador
-├── Acesso total ao sistema
 ├── CRUD de usuários
 ├── CRUD de grupos
 └── CRUD de pratos
@@ -206,96 +205,8 @@ A documentação da API é gerada automaticamente em `/api`:
 - Testes interativos
 - Exportação para JSON (`/api-json`)
 
-## 🧪 Testando Localmente
 
-### 1. Autenticação
-
-```bash
-# Login
-curl -X POST http://localhost:3000/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{"email":"admin@menu.com","senha":"admin123"}'
-
-# Resposta
-{
-  "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-  "usuario": {
-    "id": "...",
-    "nome": "Administrador",
-    "email": "admin@menu.com",
-    "grupos": ["administrador"]
-  }
-}
-```
-
-### 2. Usar o Token
-
-```bash
-export TOKEN="seu_token_aqui"
-
-curl http://localhost:3000/usuarios \
-  -H "Authorization: Bearer $TOKEN"
-```
-
-## 🔧 Personalização
-
-### Adicionar Nova Role
-
-1. Insira no banco: `INSERT INTO grupo (id, nome, descricao) VALUES (UUID(), 'nova_role', 'Descrição');`
-2. Use o decorator: `@Roles('nova_role')`
-
-### Adicionar Novo Endpoint
-
-1. Crie o método no controller
-2. Adicione decorators do Swagger
-3. Implemente a lógica no service
-4. Adicione guard se necessário: `@UseGuards(JwtAuthGuard, RolesGuard)`
-5. Defina roles necessárias: `@Roles('role1', 'role2')`
-
-### Configurar TTL do Cache
-
-Edite no `.env`:
-```
-REDIS_TTL=600  # 10 minutos
-```
-
-## 📝 Boas Práticas
-
-1. **Sempre valide** entrada do usuário com DTOs
-2. **Use transactions** para operações complexas
-3. **Invalide cache** após modificações
-4. **Documente** novos endpoints com Swagger
-5. **Teste** com diferentes roles
-6. **Não commite** o arquivo `.env`
-7. **Altere** credenciais padrão em produção
-8. **Use HTTPS** em produção
-9. **Configure** CORS adequadamente
-10. **Monitore** logs e performance
-
-## 🐳 Docker (Opcional)
-
-Exemplo de `docker-compose.yml` para ambiente de desenvolvimento:
-
-```yaml
-version: '3.8'
-services:
-  mysql:
-    image: mysql:8
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: menu_db
-    ports:
-      - "3306:3306"
-  
-  redis:
-    image: redis:latest
-    ports:
-      - "6379:6379"
-```
-
-Execute: `docker-compose up -d`
-
-## 📚 Recursos Adicionais
+## 📚 Referências
 
 - [Documentação NestJS](https://docs.nestjs.com/)
 - [TypeORM](https://typeorm.io/)

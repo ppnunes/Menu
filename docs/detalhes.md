@@ -40,7 +40,7 @@ prato (1) ←→ (N) ingrediente
 
 **Justificativa Geral:** Os índices foram criados em campos frequentemente usados em cláusulas WHERE, JOIN e ORDER BY, seguindo o princípio de otimização de queries mais executadas.
 
-#### Triggers (Mínimo 2)
+#### Triggers 
 
 O sistema possui **9 triggers** implementados:
 
@@ -96,7 +96,7 @@ BEGIN
 END;
 ```
 
-#### Views (Mínimo 2)
+#### Views
 
 O sistema possui **7 views** implementadas:
 
@@ -147,7 +147,7 @@ GROUP BY p.id, p.nome, p.tipo, p.origem, p.descricao;
 - Performance: queries pré-otimizadas e indexadas
 - Manutenibilidade: mudanças na estrutura não afetam consultas do frontend
 
-#### Procedures e Functions (Mínimo 2)
+#### Procedures e Functions
 
 O sistema possui **1 function** implementada:
 
@@ -176,10 +176,6 @@ END;
 - Mantém separação de responsabilidades: MySQL para dados, NestJS para lógica de negócio
 - Facilita testes unitários e manutenção
 
-**Possíveis Procedures Futuras:**
-- `sp_calcular_totais_nutricionais()` - Calcular totais de uma refeição
-- `sp_relatorio_pratos_por_categoria()` - Gerar estatísticas
-- `sp_auditoria_usuario()` - Registrar ações de usuários
 
 #### Usuários e Controle de Acesso
 
@@ -224,16 +220,6 @@ END;
    - Permissões: CRUD de pratos e ingredientes
    - Justificativa: Chefs e equipe de cozinha que gerenciam receitas
 
-5. **mantenedor**
-   - Descrição: Acesso de leitura e escrita a todo o schema menu_db
-   - Permissões: Similar ao role_mantenedor do MySQL
-   - Justificativa: Equipe técnica de manutenção
-
-6. **qualidade**
-   - Descrição: Acesso somente leitura do schema menu_db
-   - Permissões: Similar ao role_qualidade do MySQL
-   - Justificativa: Equipe de qualidade e testes
-
 **Implementação de Segurança:**
 
 ```sql
@@ -256,11 +242,9 @@ SET DEFAULT ROLE 'role_mantenedor' TO 'api_user'@'%';
 
 #### Geração de IDs
 
-**Estratégia Utilizada: UUID**
-
 O sistema **não utiliza AUTO_INCREMENT**. Todos os IDs são gerados via **UUID (Universally Unique Identifier)**.
 
-**Justificativa para não usar AUTO_INCREMENT:**
+**Justificativa:**
 
 1. **Distribuição Global:** UUIDs são únicos globalmente, permitindo:
    - Sincronização entre múltiplos bancos
@@ -291,10 +275,6 @@ END;
 
 **Formato:** CHAR(36) - Ex: `550e8400-e29b-41d4-a716-446655440000`
 
-**Desvantagens Consideradas e Mitigadas:**
-- ❌ Maior espaço de armazenamento → ✅ Mitigado com CHAR(36) em vez de VARCHAR
-- ❌ Performance em índices → ✅ Mitigado com índices BTREE otimizados
-- ❌ Menos legível → ✅ Aceito em troca de segurança e escalabilidade
 
 ### 1.2 Banco de Dados NoSQL
 
@@ -335,17 +315,9 @@ KEYS pattern             # Buscar chaves por padrão
 | **Performance** | Operações em ~0.1ms vs MySQL ~10-100ms. Reduz latência em 100x |
 | **Cache Distribuído** | Múltiplas instâncias do backend compartilham o mesmo cache |
 | **TTL Automático** | Expiração automática de cache sem código adicional |
-| **Simplicidade** | Key-Value é perfeito para cache de queries |
+| **Simplicidade** | Key-Value é ideal para cache de queries |
 | **Maturidade** | Redis é padrão da indústria para cache |
 | **Custo** | Open-source, baixo consumo de recursos |
-
-**Comparação com Alternativas:**
-
-| Banco | Vantagem Redis | Desvantagem |
-|-------|----------------|-------------|
-| MongoDB | Redis é 10x mais rápido para cache | MongoDB melhor para documentos complexos |
-| Memcached | Redis tem mais tipos de dados e persistência | Memcached mais simples |
-| Cassandra | Redis mais simples e rápido para reads | Cassandra melhor para big data distribuído |
 
 #### Aplicação no Sistema
 
@@ -500,7 +472,6 @@ frontend/src/
 - Exportação de dados
 - Validação de formulários
 - Mensagens de erro contextualizadas
-- Tradução para português
 
 ### 2.2 Backend
 
@@ -792,7 +763,7 @@ Este documento apresentou os detalhes técnicos do Sistema Menu - Catálogo de P
 ### Requisitos Atendidos
 
 ✅ **Banco de Dados Relacional (MySQL)**
-- 5 tabelas com relacionamentos bem definidos
+- 5 tabelas
 - 12 índices estratégicos justificados
 - 9 triggers para automação e auditoria
 - 7 views para otimização e segurança
@@ -813,12 +784,11 @@ Este documento apresentou os detalhes técnicos do Sistema Menu - Catálogo de P
 - CRUD completo para todas entidades
 - Validações e feedback visual
 
-✅ **Backend Robusto**
+✅ **Backend**
 - API RESTful com NestJS
 - Autenticação JWT
 - Controle de acesso baseado em roles
 - Integração com MySQL e Redis
-- Boas práticas de desenvolvimento
 
 ### Tecnologias Utilizadas
 
@@ -835,7 +805,7 @@ Este documento apresentou os detalhes técnicos do Sistema Menu - Catálogo de P
 | Build | Vite | 5.0.8 | Build tool moderno e rápido |
 | Linguagem | TypeScript | 5.3.3 | Type safety, melhor DX |
 
-### Diferenciais Técnicos
+### Requisitos Não Funcionais Atingidos
 
 1. **Segurança em Camadas:**
    - MySQL: Usuários com privilégios mínimos
@@ -863,24 +833,3 @@ Este documento apresentou os detalhes técnicos do Sistema Menu - Catálogo de P
    - Logs estruturados
    - Rastreamento de alterações
 
-### Possíveis Melhorias Futuras
-
-1. **Técnicas:**
-   - Implementar GraphQL para queries customizadas
-   - Adicionar testes automatizados (Jest, Cypress)
-   - Configurar CI/CD (GitHub Actions)
-   - Implementar observabilidade (Prometheus + Grafana)
-
-2. **Funcionais:**
-   - Upload de imagens de pratos (AWS S3)
-   - Sistema de avaliações e comentários
-   - Recomendações baseadas em preferências
-   - Geração de relatórios nutricionais em PDF
-
-3. **Segurança:**
-   - Autenticação de dois fatores (2FA)
-   - Criptografia de dados sensíveis
-   - Rotação automática de secrets
-   - Auditoria completa de ações
-
-Este sistema demonstra a aplicação prática de conceitos de banco de dados relacionais e NoSQL, desenvolvimento full-stack moderno, e boas práticas de engenharia de software, resultando em uma aplicação robusta, performática e escalável.

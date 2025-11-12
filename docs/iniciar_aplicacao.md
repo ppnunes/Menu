@@ -2,7 +2,10 @@
 
 ## Instalação Rápida
 
-### 1. Certifique-se de que o backend está rodando
+### 1. Certifique-se de que o backend está rodando e o banco de dados disponível
+
+Checar arquivos readme.md disponíveis nas pastas [backend](../backend/README.md), [bd](../bd/README.md) e [frontend](../frontend/README.md).
+
 ```bash
 # No diretório backend
 cd backend
@@ -45,4 +48,4 @@ Agora você pode:
 
 ## 📚 Mais Informações
 
-Consulte o `README.md` para documentação completa.
+Consulte o [`README.md`](../README.md) para documentação completa.
