@@ -112,6 +112,35 @@ BEGIN
     RETURN CURRENT_TIMESTAMP;
 END//
 
+-- Função para verificar se um prato é low carb
+-- Considera low carb se tiver menos de 20g de carboidratos
+CREATE FUNCTION eh_low_carb(p_prato_id CHAR(36))
+RETURNS BOOLEAN
+READS SQL DATA
+BEGIN
+    DECLARE carbs DECIMAL(8,2);
+    SELECT carboidratos INTO carbs
+    FROM prato
+    WHERE id = p_prato_id;
+    
+    -- Retorna TRUE se carboidratos < 20g
+    RETURN carbs < 20.0;
+END//
+
+-- ============================================
+-- PROCEDURES
+-- ============================================
+
+-- Procedure para ativar/desativar prato (toggle)
+CREATE PROCEDURE toggle_status_prato(
+    IN p_prato_id CHAR(36)
+)
+BEGIN
+    UPDATE prato
+    SET ativo = NOT ativo
+    WHERE id = p_prato_id;
+END//
+
 -- ============================================
 -- TRIGGERS para geração automática de UUID
 -- ============================================
@@ -390,10 +419,14 @@ FLUSH PRIVILEGES;
 -- Este schema inclui:
 -- 1. Definição de todas as tabelas (usuario, grupo, grupo_usuario, prato, ingrediente)
 -- 2. Índices em campos importantes para otimização de consultas
--- 3. Função get_current_timestamp() para retornar timestamp atual
--- 4. Triggers para geração automática de UUID
--- 5. Triggers para atualização de timestamps usando a função personalizada
--- 6. Triggers para atualizar prato.atualizado_em quando ingredientes são modificados
--- 7. Views filtradas por tipo e origem para usuário_comum
--- 8. Roles MySQL (role_mantenedor e role_qualidade)
--- 9. Users MySQL (api_user e testador) com suas respectivas roles
+-- 3. Funções:
+--    - get_current_timestamp(): retorna timestamp atual
+--    - eh_low_carb(): verifica se um prato tem menos de 20g de carboidratos
+-- 4. Procedures:
+--    - toggle_status_prato(): ativa/desativa um prato
+-- 5. Triggers para geração automática de UUID
+-- 6. Triggers para atualização de timestamps usando a função personalizada
+-- 7. Triggers para atualizar prato.atualizado_em quando ingredientes são modificados
+-- 8. Views filtradas por tipo e origem para usuário_comum
+-- 9. Roles MySQL (role_mantenedor e role_qualidade)
+-- 10. Users MySQL (api_user e testador) com suas respectivas roles
