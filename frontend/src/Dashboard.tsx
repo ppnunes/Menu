@@ -18,10 +18,10 @@ const StatCard = ({ title, value, icon }: any) => (
 
 export const Dashboard = () => {
   const { permissions } = usePermissions();
-  const { data: pratos, isLoading: loadingPratos } = useGetList('pratos', {
+  const { total: totalPratos, isLoading: loadingPratos } = useGetList('pratos', {
     pagination: { page: 1, perPage: 1 },
   });
-  const { data: usuarios, isLoading: loadingUsuarios } = useGetList(
+  const { total: totalUsuarios, isLoading: loadingUsuarios } = useGetList(
     'usuarios',
     {
       pagination: { page: 1, perPage: 1 },
@@ -41,14 +41,14 @@ export const Dashboard = () => {
       <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
         <StatCard
           title="Total de Pratos"
-          value={loadingPratos ? '...' : pratos?.length || 0}
+          value={loadingPratos ? '...' : totalPratos || 0}
           icon={<RestaurantIcon sx={{ fontSize: 40, color: 'primary.main' }} />}
         />
 
         {permissions === 'administrador' && (
           <StatCard
             title="Total de Usuários"
-            value={loadingUsuarios ? '...' : usuarios?.length || 0}
+            value={loadingUsuarios ? '...' : totalUsuarios || 0}
             icon={<PeopleIcon sx={{ fontSize: 40, color: 'secondary.main' }} />}
           />
         )}
