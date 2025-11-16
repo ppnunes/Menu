@@ -41,41 +41,49 @@ export class CreatePratoDto {
   @ApiProperty({ example: 350.5, required: false })
   @IsNumber()
   @IsOptional()
+  @Type(() => Number)
   calorias?: number;
 
   @ApiProperty({ example: 25.3, required: false })
   @IsNumber()
   @IsOptional()
+  @Type(() => Number)
   proteinas?: number;
 
   @ApiProperty({ example: 40.2, required: false })
   @IsNumber()
   @IsOptional()
+  @Type(() => Number)
   carboidratos?: number;
 
   @ApiProperty({ example: 15.8, required: false })
   @IsNumber()
   @IsOptional()
+  @Type(() => Number)
   gorduras?: number;
 
   @ApiProperty({ example: 6.5, required: false })
   @IsNumber()
   @IsOptional()
+  @Type(() => Number)
   gordurasSaturadas?: number;
 
   @ApiProperty({ example: 3.2, required: false })
   @IsNumber()
   @IsOptional()
+  @Type(() => Number)
   fibras?: number;
 
   @ApiProperty({ example: 580.0, required: false })
   @IsNumber()
   @IsOptional()
+  @Type(() => Number)
   sodio?: number;
 
   @ApiProperty({ example: 5.0, required: false })
   @IsNumber()
   @IsOptional()
+  @Type(() => Number)
   acucares?: number;
 
   @ApiProperty({ type: [IngredienteDto], required: false })
@@ -110,41 +118,49 @@ export class UpdatePratoDto {
   @ApiProperty({ required: false })
   @IsNumber()
   @IsOptional()
+  @Type(() => Number)
   calorias?: number;
 
   @ApiProperty({ required: false })
   @IsNumber()
   @IsOptional()
+  @Type(() => Number)
   proteinas?: number;
 
   @ApiProperty({ required: false })
   @IsNumber()
   @IsOptional()
+  @Type(() => Number)
   carboidratos?: number;
 
   @ApiProperty({ required: false })
   @IsNumber()
   @IsOptional()
+  @Type(() => Number)
   gorduras?: number;
 
   @ApiProperty({ required: false })
   @IsNumber()
   @IsOptional()
+  @Type(() => Number)
   gordurasSaturadas?: number;
 
   @ApiProperty({ required: false })
   @IsNumber()
   @IsOptional()
+  @Type(() => Number)
   fibras?: number;
 
   @ApiProperty({ required: false })
   @IsNumber()
   @IsOptional()
+  @Type(() => Number)
   sodio?: number;
 
   @ApiProperty({ required: false })
   @IsNumber()
   @IsOptional()
+  @Type(() => Number)
   acucares?: number;
 
   @ApiProperty({ required: false })
