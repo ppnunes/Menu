@@ -70,6 +70,7 @@ Frontend rodando em: **http://localhost:3001**
 - **Views** - Para acesso otimizado
 - **Triggers** - Para automação de dados
 - **Índices** - Para otimização de consultas
+- **Funções e Procedures** - Para facilitar operações mais complexas
 
 ## 📊 Modelo de Dados
 
@@ -103,7 +104,6 @@ Frontend rodando em: **http://localhost:3001**
 ### Nutricionista
 - ✅ CRUD de pratos
 - ✅ Gerenciar ingredientes
-- ✅ Visualizar usuários (sem editar)
 
 ### Usuário Comum
 - ✅ Visualizar pratos
@@ -128,7 +128,7 @@ Frontend rodando em: **http://localhost:3001**
 
 ### Gestão de Usuários (Admin)
 - Criar e gerenciar usuários
-- Atribuir roles
+- Atribuir grupos
 - Ativar/desativar usuários
 - Visualizar histórico
 
