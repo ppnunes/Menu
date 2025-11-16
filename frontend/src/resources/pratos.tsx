@@ -26,6 +26,7 @@ import {
   CreateButton,
   ExportButton,
   DateField,
+  usePermissions,
 } from 'react-admin';
 import { Chip, Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 
@@ -111,26 +112,40 @@ const pratoFilters = [
 ];
 
 // Actions personalizadas
-const ListActions = () => (
-  <TopToolbar>
-    <FilterButton />
-    <CreateButton />
-    <ExportButton />
-  </TopToolbar>
-);
+const ListActions = () => {
+  const { permissions } = usePermissions();
+  const canCreate = permissions === 'administrador' || permissions === 'nutricionista';
+
+  return (
+    <TopToolbar>
+      <FilterButton />
+      {canCreate && <CreateButton />}
+      <ExportButton />
+    </TopToolbar>
+  );
+};
 
 // List
-export const PratoList = () => (
-  <List filters={pratoFilters} actions={<ListActions />}>
-    <Datagrid rowClick="show" expand={<PratoExpandPanel />}>
-      <TextField source="nome" label="Nome" />
-      <FunctionField label="Tipo" render={() => <TipoBadge />} />
-      <TextField source="origem" label="Origem" />
-      <DateField source="criadoEm" label="Criado em" showTime />
-      <DateField source="atualizadoEm" label="Atualizado em" showTime />
-    </Datagrid>
-  </List>
-);
+export const PratoList = () => {
+  const { permissions } = usePermissions();
+  const canDelete = permissions === 'administrador' || permissions === 'nutricionista';
+
+  return (
+    <List filters={pratoFilters} actions={<ListActions />}>
+      <Datagrid 
+        rowClick="show" 
+        expand={<PratoExpandPanel />}
+        bulkActionButtons={canDelete ? undefined : false}
+      >
+        <TextField source="nome" label="Nome" />
+        <FunctionField label="Tipo" render={() => <TipoBadge />} />
+        <TextField source="origem" label="Origem" />
+        <DateField source="criadoEm" label="Criado em" showTime />
+        <DateField source="atualizadoEm" label="Atualizado em" showTime />
+      </Datagrid>
+    </List>
+  );
+};
 
 // Painel expandível para mostrar detalhes nutricionais na lista
 const PratoExpandPanel = () => {
