@@ -1,4 +1,4 @@
-# 🍽️ Projeto Menu - Catálogo de Pratos Online
+#  Projeto Menu - Catálogo de Pratos Online
 
 Sistema completo de gerenciamento de pratos com informações nutricionais, autenticação e controle de acesso baseado em roles.
 
