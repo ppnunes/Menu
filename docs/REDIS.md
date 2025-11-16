@@ -2,7 +2,7 @@
 
 A aplicação agora utiliza **Redis** como sistema de cache distribuído.
 
-## ⚙️ Requisitos
+##  Requisitos
 
 - **Redis Server** instalado e rodando
 - Porta padrão: `6379`
