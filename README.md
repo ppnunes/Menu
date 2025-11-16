@@ -2,19 +2,19 @@
 
 Sistema completo de gerenciamento de pratos com informações nutricionais, autenticação e controle de acesso baseado em roles.
 
-## 📁 Estrutura do Projeto
+## Estrutura do Projeto
 
 ```
 Menu/
 ├── backend/           # API NestJS
 ├── frontend/          # Interface React Admin
 ├── bd/                # Scripts SQL
-└── docs/              # 📚 Documentação completa do projeto
+└── docs/              #  Documentação completa do projeto
 ```
 
-## 🚀 Início Rápido
+## Início Rápido
 
-### 1. Configurar Banco de Dados
+### 1.Configurar Banco de Dados
 
 ```bash
 # Criar banco MySQL
@@ -47,7 +47,7 @@ Frontend rodando em: **http://localhost:3001**
 - **Email**: admin@menu.com
 - **Senha**: admin123
 
-## 🛠️ Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
 ### Backend
 - **NestJS** - Framework Node.js progressivo
@@ -72,7 +72,7 @@ Frontend rodando em: **http://localhost:3001**
 - **Índices** - Para otimização de consultas
 - **Funções e Procedures** - Para facilitar operações mais complexas
 
-## 📊 Modelo de Dados
+## Modelo de Dados
 
 ### Tabelas Principais
 
@@ -92,26 +92,26 @@ Frontend rodando em: **http://localhost:3001**
 - `view_pratos_indianos`
 - `view_pratos_completos` (com ingredientes)
 
-## 🔐 Sistema de Permissões (RBAC)
+## Sistema de Permissões (RBAC)
 
 ### Administrador
-- ✅ Acesso completo ao sistema
-- ✅ CRUD de usuários
-- ✅ CRUD de grupos
-- ✅ CRUD de pratos
-- ✅ Visualizar estatísticas
+-  Acesso completo ao sistema
+-  CRUD de usuários
+-  CRUD de grupos
+-  CRUD de pratos
+-  Visualizar estatísticas
 
 ### Nutricionista
-- ✅ CRUD de pratos
-- ✅ Gerenciar ingredientes
+-  CRUD de pratos
+-  Gerenciar ingredientes
 
 ### Usuário Comum
-- ✅ Visualizar pratos
-- ✅ Filtrar por tipo e origem
-- ✅ Ver informações nutricionais
-- ✅ Ver ingredientes
+-  Visualizar pratos
+-  Filtrar por tipo e origem
+-  Ver informações nutricionais
+-  Ver ingredientes
 
-## 📱 Funcionalidades
+##  Funcionalidades
 
 ### Dashboard
 - Estatísticas do sistema
@@ -139,7 +139,7 @@ Frontend rodando em: **http://localhost:3001**
 - Validação de dados
 - Tratamento de erros
 
-## 🗂️ Estrutura de Diretórios
+##  Estrutura de Diretórios
 
 ### Backend
 ```
@@ -167,7 +167,7 @@ frontend/src/
 └── dataProvider.ts
 ```
 
-## 🔧 Configuração
+## Configuração
 
 ### Backend (.env)
 ```env
@@ -191,7 +191,7 @@ PORT=3000
 VITE_API_URL=http://localhost:3000
 ```
 
-## 📚 Documentação
+## Documentação
 
 Para documentação completa, acesse a pasta [docs/](./docs/):
 
@@ -224,7 +224,7 @@ Para documentação completa, acesse a pasta [docs/](./docs/):
 - Testes de endpoints
 - Exemplos de requisições
 
-## 🧪 Testando a API
+##  Testando a API
 
 ### Login
 ```bash
@@ -256,7 +256,7 @@ curl -X POST http://localhost:3000/pratos \
   }'
 ```
 
-## 🔄 Fluxo de Trabalho
+## Fluxo de Trabalho
 
 1. **Usuário acessa o frontend** (http://localhost:3001)
 2. **Faz login** com email e senha
@@ -269,7 +269,7 @@ curl -X POST http://localhost:3000/pratos \
 9. **Dados retornam** para o frontend
 10. **Interface renderiza** conteúdo baseado em permissões
 
-## 📈 Performance
+## Performance
 
 - **Cache Redis**: Respostas de leitura de pratos em cache
 - **Índices MySQL**: Otimização de consultas
@@ -277,7 +277,7 @@ curl -X POST http://localhost:3000/pratos \
 - **Lazy Loading**: Carregamento sob demanda no frontend
 - **Code Splitting**: Divisão de código no build
 
-## 🛡️ Segurança
+##  Segurança
 
 - Senhas hasheadas com bcrypt
 - Autenticação JWT
@@ -287,7 +287,7 @@ curl -X POST http://localhost:3000/pratos \
 - Sanitização de inputs
 - Prepared statements (SQL injection protection)
 
-## 🐛 Troubleshooting
+##  Troubleshooting
 
 ### Backend não inicia
 - Verifique se MySQL está rodando
@@ -304,11 +304,12 @@ curl -X POST http://localhost:3000/pratos \
 - Verifique credenciais
 - Confirme JWT_SECRET no backend
 
-## 👥 Autores
+## Autores
 
-Desenvolvido para o projeto de catálogo de pratos online.
+Priscila Nunes, Anna Beatriz Nascimento Reis, Camile Eduarda Cordeiro Felix, Fabiana Souza De Paula, Emanoel Alexandre Barbosa Batista,Erick Ferreira Dos Santos.
 
-## 🆘 Suporte
+
+## Suporte
 
 - **[Documentação Completa](./docs/)** - Toda a documentação do projeto
 - Documentação Backend: `backend/README.md`
