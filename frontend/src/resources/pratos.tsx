@@ -25,6 +25,7 @@ import {
   TopToolbar,
   CreateButton,
   ExportButton,
+  DateField,
 } from 'react-admin';
 import { Chip, Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 
@@ -125,9 +126,8 @@ export const PratoList = () => (
       <TextField source="nome" label="Nome" />
       <FunctionField label="Tipo" render={() => <TipoBadge />} />
       <TextField source="origem" label="Origem" />
-      <NumberField source="calorias" label="Calorias (kcal)" />
-      <NumberField source="proteinas" label="Proteínas (g)" />
-      <BooleanField source="ativo" label="Ativo" />
+      <DateField source="criadoEm" label="Criado em" showTime />
+      <DateField source="atualizadoEm" label="Atualizado em" showTime />
     </Datagrid>
   </List>
 );

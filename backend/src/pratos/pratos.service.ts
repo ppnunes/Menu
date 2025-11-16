@@ -154,6 +154,80 @@ export class PratosService {
     return pratos;
   }
 
+  async searchByName(
+    query: string,
+    skip: number = 0,
+    take: number = 10,
+    sortField: string = 'criadoEm',
+    sortOrder: 'ASC' | 'DESC' = 'DESC',
+  ): Promise<{ data: Prato[]; total: number }> {
+    const cacheKey = `pratos:search:${query}:${skip}:${take}:${sortField}:${sortOrder}`;
+    const cached = await this.cacheManager.get<{ data: Prato[]; total: number }>(cacheKey);
+
+    if (cached) {
+      return cached;
+    }
+
+    const queryBuilder = this.pratoRepository
+      .createQueryBuilder('prato')
+      .leftJoinAndSelect('prato.ingredientes', 'ingredientes')
+      .where('prato.ativo = :ativo', { ativo: true })
+      .andWhere('LOWER(prato.nome) LIKE LOWER(:query)', { query: `%${query}%` })
+      .skip(skip)
+      .take(take)
+      .orderBy(`prato.${sortField}`, sortOrder);
+
+    const [data, total] = await queryBuilder.getManyAndCount();
+
+    const result = { data, total };
+    await this.cacheManager.set(cacheKey, result);
+    return result;
+  }
+
+  async findAllWithFilters(
+    filters: { tipo?: TipoPrato; origem?: OrigemPrato; q?: string },
+    skip: number = 0,
+    take: number = 10,
+    sortField: string = 'criadoEm',
+    sortOrder: 'ASC' | 'DESC' = 'DESC',
+  ): Promise<{ data: Prato[]; total: number }> {
+    const { tipo, origem, q } = filters;
+    const cacheKey = `pratos:filters:${tipo || 'all'}:${origem || 'all'}:${q || 'all'}:${skip}:${take}:${sortField}:${sortOrder}`;
+    const cached = await this.cacheManager.get<{ data: Prato[]; total: number }>(cacheKey);
+
+    if (cached) {
+      return cached;
+    }
+
+    const queryBuilder = this.pratoRepository
+      .createQueryBuilder('prato')
+      .leftJoinAndSelect('prato.ingredientes', 'ingredientes')
+      .where('prato.ativo = :ativo', { ativo: true });
+
+    if (tipo) {
+      queryBuilder.andWhere('prato.tipo = :tipo', { tipo });
+    }
+
+    if (origem) {
+      queryBuilder.andWhere('prato.origem = :origem', { origem });
+    }
+
+    if (q) {
+      queryBuilder.andWhere('LOWER(prato.nome) LIKE LOWER(:query)', { query: `%${q}%` });
+    }
+
+    queryBuilder
+      .skip(skip)
+      .take(take)
+      .orderBy(`prato.${sortField}`, sortOrder);
+
+    const [data, total] = await queryBuilder.getManyAndCount();
+
+    const result = { data, total };
+    await this.cacheManager.set(cacheKey, result);
+    return result;
+  }
+
   async update(id: string, updatePratoDto: UpdatePratoDto): Promise<Prato> {
     const prato = await this.findOne(id);
     const { ingredientes, ...pratoData } = updatePratoDto;

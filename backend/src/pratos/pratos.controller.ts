@@ -39,6 +39,7 @@ export class PratosController {
   @ApiResponse({ status: 200, description: 'Lista de pratos' })
   @ApiQuery({ name: 'tipo', enum: TipoPrato, required: false })
   @ApiQuery({ name: 'origem', enum: OrigemPrato, required: false })
+  @ApiQuery({ name: 'q', required: false, description: 'Buscar por nome' })
   @ApiQuery({ name: '_start', required: false })
   @ApiQuery({ name: '_end', required: false })
   @ApiQuery({ name: '_sort', required: false })
@@ -46,6 +47,7 @@ export class PratosController {
   async findAll(
     @Query('tipo') tipo?: TipoPrato,
     @Query('origem') origem?: OrigemPrato,
+    @Query('q') q?: string,
     @Query('_start') start?: string,
     @Query('_end') end?: string,
     @Query('_sort') sort?: string,
@@ -57,27 +59,20 @@ export class PratosController {
     const sortField = sort || 'criadoEm';
     const sortOrder = order?.toUpperCase() === 'ASC' ? 'ASC' : 'DESC';
 
-    let pratos;
-    let total;
-
-    if (tipo) {
-      pratos = await this.pratosService.findByTipo(tipo);
-      total = pratos.length;
-    } else if (origem) {
-      pratos = await this.pratosService.findByOrigem(origem);
-      total = pratos.length;
-    } else {
-      const result = await this.pratosService.findAllWithCount(skip, take, sortField, sortOrder as 'ASC' | 'DESC');
-      pratos = result.data;
-      total = result.total;
-    }
+    const result = await this.pratosService.findAllWithFilters(
+      { tipo, origem, q },
+      skip,
+      take,
+      sortField,
+      sortOrder as 'ASC' | 'DESC',
+    );
 
     if (res) {
-      res.header('X-Total-Count', total.toString());
+      res.header('X-Total-Count', result.total.toString());
       res.header('Access-Control-Expose-Headers', 'X-Total-Count');
     }
 
-    return pratos;
+    return result.data;
   }
 
   @Get(':id')
