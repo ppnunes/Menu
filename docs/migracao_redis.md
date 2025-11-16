@@ -1,6 +1,6 @@
 # Migração para Redis - Resumo das Alterações
 
-## 📦 Pacotes Atualizados
+##  Pacotes Atualizados
 
 ### Removido
 - `cache-manager-redis-store@3.0.1` (incompatível com cache-manager v5)
@@ -8,7 +8,7 @@
 ### Adicionado
 - `cache-manager-redis-yet@5.1.5` (compatível com cache-manager v5)
 
-## 📝 Arquivos Modificados
+##  Arquivos Modificados
 
 ### 1. `src/app.module.ts`
 **Antes:** Cache em memória
@@ -63,7 +63,7 @@ import { redisStore } from 'cache-manager-redis-yet';
    - Estatísticas e informações
    - Chaves existentes
 
-## ⚙️ Configuração no .env
+##  Configuração no .env
 
 As seguintes variáveis já existem e agora são utilizadas:
 
@@ -74,7 +74,7 @@ REDIS_PASSWORD=
 REDIS_TTL=300
 ```
 
-## 🚀 Próximos Passos
+##  Próximos Passos
 
 ### 1. Instalar Redis (se ainda não tiver)
 
@@ -113,7 +113,7 @@ chmod +x check-redis.sh
 npm run start:dev
 ```
 
-## 🔍 Como Verificar se está Funcionando
+##  Como Verificar se está Funcionando
 
 ### 1. Monitorar Redis em tempo real
 ```bash
@@ -138,20 +138,20 @@ Você deve ver chaves como:
 ## 📊 Benefícios da Migração
 
 ### Antes (Cache em Memória)
-- ❌ Cache perdido ao reiniciar aplicação
-- ❌ Cada instância tem seu próprio cache
-- ❌ Limitado pela memória Node.js
-- ❌ Sem ferramentas de monitoramento
+-  Cache perdido ao reiniciar aplicação
+-  Cada instância tem seu próprio cache
+-  Limitado pela memória Node.js
+-  Sem ferramentas de monitoramento
 
 ### Depois (Redis)
-- ✅ Cache persistente entre reinicializações
-- ✅ Cache compartilhado entre múltiplas instâncias
-- ✅ Escalável e de alta performance
-- ✅ Ferramentas robustas de monitoramento
-- ✅ TTL automático por chave
-- ✅ Suporte a operações complexas
+-  Cache persistente entre reinicializações
+-  Cache compartilhado entre múltiplas instâncias
+-  Escalável e de alta performance
+-  Ferramentas robustas de monitoramento
+-  TTL automático por chave
+-  Suporte a operações complexas
 
-## 🐛 Troubleshooting
+##  Troubleshooting
 
 ### Erro: "Error: connect ECONNREFUSED 127.0.0.1:6379"
 **Solução:** Redis não está rodando. Inicie-o:
@@ -173,7 +173,7 @@ REDIS_PASSWORD=sua-senha
 2. Porta correta? Verifique `REDIS_PORT` no `.env`
 3. Logs da aplicação: `npm run start:dev`
 
-## 🔄 Reverter para Cache em Memória
+##  Reverter para Cache em Memória
 
 Se precisar voltar ao cache em memória:
 
@@ -196,7 +196,7 @@ CacheModule.register({
 npm uninstall cache-manager-redis-yet redis
 ```
 
-## 📚 Documentação Adicional
+##  Documentação Adicional
 
 - [REDIS.md](./REDIS.md) - Guia completo do Redis
 - [README.md](./README.md) - Documentação principal
