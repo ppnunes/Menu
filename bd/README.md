@@ -4,7 +4,7 @@ Este diretório contém os arquivos SQL para configuração do banco de dados do
 
 ## Estrutura de Arquivos
 
-### 📄 schema.sql
+###  schema.sql
 Arquivo DDL (Data Definition Language) contendo:
 - Criação do banco de dados `menu_db`
 - Definição de todas as tabelas (usuario, grupo, grupo_usuario, prato, ingrediente)
@@ -16,7 +16,7 @@ Arquivo DDL (Data Definition Language) contendo:
 - Roles MySQL (role_mantenedor, role_qualidade)
 - Users MySQL (api_user, testador)
 
-### 📄 dados.sql
+###  dados.sql
 Arquivo DML (Data Manipulation Language) contendo:
 - Inserção dos grupos da aplicação
 - Usuário administrador padrão (opcional, comentado)
@@ -54,7 +54,7 @@ SOURCE /caminho/completo/para/dados.sql;
 
 ## Usuários MySQL Criados
 
-### 🔧 api_user
+###  api_user
 - **Senha**: `api_senha_123` (deve ser alterada em produção)
 - **Role**: role_mantenedor
 - **Permissões**: SELECT, INSERT, UPDATE, DELETE em todo o schema menu_db
@@ -66,7 +66,7 @@ DB_USERNAME=api_user
 DB_PASSWORD=api_senha_123
 ```
 
-### 🧪 testador
+###  testador
 - **Senha**: `testador_senha_123` (deve ser alterada em produção)
 - **Role**: role_qualidade
 - **Permissões**: SELECT (somente leitura) em todo o schema menu_db
@@ -134,17 +134,17 @@ menu_db
 
 ## Observações Importantes
 
-⚠️ **Senhas Padrão**: As senhas dos usuários MySQL devem ser alteradas em produção.
+ **Senhas Padrão**: As senhas dos usuários MySQL devem ser alteradas em produção.
 
-⚠️ **Usuário Admin**: O usuário administrador está comentado no arquivo `dados.sql`. Descomente se desejar criar um usuário admin padrão.
+ **Usuário Admin**: O usuário administrador está comentado no arquivo `dados.sql`. Descomente se desejar criar um usuário admin padrão.
 
-⚠️ **Dados de Exemplo**: Os pratos inseridos são apenas exemplos para teste. Podem ser removidos em produção.
+ **Dados de Exemplo**: Os pratos inseridos são apenas exemplos para teste. Podem ser removidos em produção.
 
 ## Próximos Passos
 
 Após executar os arquivos SQL:
 
-1. ✅ Atualizar o arquivo `backend/.env` com as credenciais do `api_user`
-2. ✅ Verificar a conexão do backend com o banco
-3. ✅ Testar as operações CRUD através da API
-4. ✅ Acessar o frontend React Admin em http://localhost:3001
+1.  Atualizar o arquivo `backend/.env` com as credenciais do `api_user`
+2.  Verificar a conexão do backend com o banco
+3.  Testar as operações CRUD através da API
+4.  Acessar o frontend React Admin em http://localhost:3001
