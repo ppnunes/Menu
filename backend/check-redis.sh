@@ -7,9 +7,9 @@ echo ""
 
 # Verificar se o Redis está instalado
 if command -v redis-cli &> /dev/null; then
-    echo "✅ Redis CLI está instalado"
+    echo " Redis CLI está instalado"
 else
-    echo "❌ Redis CLI não encontrado"
+    echo " Redis CLI não encontrado"
     echo ""
     echo "Para instalar:"
     echo "  macOS:  brew install redis"
@@ -22,7 +22,7 @@ echo ""
 
 # Verificar se o Redis está rodando
 if redis-cli ping &> /dev/null; then
-    echo "✅ Redis está rodando"
+    echo " Redis está rodando"
     
     # Mostrar informações
     echo ""
@@ -32,15 +32,15 @@ if redis-cli ping &> /dev/null; then
     redis-cli INFO memory | grep "used_memory_human"
     
     echo ""
-    echo "🔢 Estatísticas:"
+    echo " Estatísticas:"
     echo "  Total de chaves: $(redis-cli DBSIZE | awk '{print $2}')"
     
     echo ""
-    echo "🔑 Últimas chaves (max 10):"
+    echo " Últimas chaves (max 10):"
     redis-cli --scan --count 10
     
 else
-    echo "❌ Redis não está rodando"
+    echo " Redis não está rodando"
     echo ""
     echo "Para iniciar:"
     echo "  macOS:  brew services start redis"
@@ -50,4 +50,4 @@ else
 fi
 
 echo ""
-echo "✨ Tudo pronto! O backend pode conectar ao Redis."
+echo " Tudo pronto! O backend pode conectar ao Redis."
