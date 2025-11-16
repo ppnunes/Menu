@@ -1,4 +1,4 @@
-# 🚀 Quick Start - Frontend
+# Quick Start - Frontend
 
 ## Instalação Rápida
 
@@ -30,15 +30,15 @@ Abra: http://localhost:3001
 - **Email**: admin@menu.com
 - **Senha**: admin123
 
-## ✅ Pronto!
+##  Pronto!
 
 Agora você pode:
-- ✅ Gerenciar pratos
-- ✅ Adicionar ingredientes
-- ✅ Gerenciar usuários (se for admin)
-- ✅ Visualizar dashboard com estatísticas
+-  Gerenciar pratos
+-  Adicionar ingredientes
+-  Gerenciar usuários (se for admin)
+-  Visualizar dashboard com estatísticas
 
-## 🎨 Recursos
+## Recursos
 
 - Interface moderna e responsiva
 - Filtros por tipo e origem de pratos
@@ -46,6 +46,6 @@ Agora você pode:
 - Dashboard com estatísticas
 - Exportação de dados
 
-## 📚 Mais Informações
+##  Mais Informações
 
 Consulte o [`README.md`](../README.md) para documentação completa.
