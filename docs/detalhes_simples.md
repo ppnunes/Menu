@@ -278,7 +278,268 @@ Próxima pessoa: Vai ver em 0,1 segundo! (Redis já lembra)
 
 ---
 
-## 1.3 Segurança e Controle de Acesso
+## 1.3 Funções e Procedimentos Automáticos
+
+### O que são Funções e Procedimentos?
+
+**Imagine que você tem ajudantes mágicos no sistema que fazem tarefas específicas automaticamente!**
+
+**Analogia do mundo real:**
+- **Função:** Como uma calculadora - você dá um número, ela faz uma conta e te devolve o resultado
+- **Procedimento:** Como apertar um botão que faz várias coisas ao mesmo tempo (tipo o botão "ligar" da TV que liga tela, som, etc)
+
+No nosso sistema, criamos 3 "ajudantes mágicos":
+
+### 🧮 Funções (Calculadoras Especiais)
+
+**1. Relógio Automático (get_current_timestamp)**
+
+**O que faz:**
+- Sempre que algo muda no sistema, anota a data e hora exata
+- Como ter um relógio que marca automaticamente quando você mexeu em algo
+
+**Exemplo prático:**
+```
+Você edita a Feijoada
+   ↓
+Função anota: "Modificado em 16/11/2025 às 14:35"
+   ↓
+Você nem precisa lembrar de anotar!
+```
+
+**Por que é útil:**
+- ✅ Você sabe QUANDO foi a última mudança
+- ✅ Não precisa anotar manualmente
+- ✅ Nunca esquece de registrar
+
+---
+
+**2. Verificador de Dieta Low Carb (eh_low_carb)**
+
+**O que faz:**
+- Olha um prato e responde: "É low carb ou não?"
+- Low carb = tem menos de 20g de carboidratos
+- Como ter um nutricionista que confere instantaneamente
+
+**Como funciona:**
+```
+Você pergunta: "Tapioca é low carb?"
+   ↓
+Função olha: Tapioca tem 45g de carboidratos
+   ↓
+Função responde: "NÃO, não é low carb"
+
+Você pergunta: "Omelete é low carb?"
+   ↓
+Função olha: Omelete tem 5g de carboidratos
+   ↓
+Função responde: "SIM, é low carb!"
+```
+
+**Exemplos de uso:**
+
+1. **Filtrar pratos low carb:**
+   ```
+   Você: "Quero ver TODOS os pratos low carb"
+   Sistema: "Encontrei 15 pratos low carb"
+   ```
+
+2. **Conferir prato específico:**
+   ```
+   Você: "Feijoada é low carb?"
+   Sistema: "Não, tem 38g de carboidratos"
+   ```
+
+3. **Contar quantos existem:**
+   ```
+   Sistema mostra: "Você tem 15 pratos low carb de 54 pratos no total"
+   ```
+
+**Por que é útil:**
+- ✅ Não precisa calcular manualmente
+- ✅ Resposta instantânea
+- ✅ Útil para quem faz dieta low carb
+- ✅ Nutricionistas usam para montar cardápios
+
+**Comparação visual:**
+
+| Prato | Carboidratos | É Low Carb? |
+|-------|--------------|-------------|
+| Omelete de Queijo | 5g | ✅ SIM |
+| Salada Caesar | 8g | ✅ SIM |
+| Tapioca | 45g | ❌ NÃO |
+| Feijoada | 38g | ❌ NÃO |
+| Frango Grelhado | 3g | ✅ SIM |
+
+---
+
+### ⚡ Procedimentos (Botões Mágicos)
+
+**Interruptor de Prato (toggle_status_prato)**
+
+**O que faz:**
+- É como um interruptor de luz: clica uma vez, desliga; clica de novo, liga
+- Ativa ou desativa pratos no cardápio
+
+**Como funciona:**
+
+**Cenário 1: Desativar prato**
+```
+Feijoada está ATIVA (aparece no cardápio)
+   ↓
+Chef: "Acabou feijão, tira a Feijoada do cardápio"
+   ↓
+Você clica no botão mágico
+   ↓
+Feijoada fica INATIVA (some do cardápio)
+   ↓
+Clientes não veem mais ela como opção
+```
+
+**Cenário 2: Reativar prato**
+```
+Feijoada está INATIVA (fora do cardápio)
+   ↓
+Chef: "Chegou feijão! Coloca Feijoada de volta"
+   ↓
+Você clica no botão mágico DE NOVO
+   ↓
+Feijoada fica ATIVA (volta pro cardápio)
+   ↓
+Clientes veem ela novamente!
+```
+
+**Por que não deletar de vez?**
+
+❌ **Deletar permanente:** Apaga tudo, perde a receita!
+```
+Deletou Feijoada → Sumiu para sempre
+Quer voltar? → Precisa cadastrar TUDO de novo (trabalho!)
+```
+
+✅ **Desativar (toggle):** Esconde, mas mantém guardado
+```
+Desativou Feijoada → Só escondeu
+Quer voltar? → Clica no botão de novo (2 segundos!)
+```
+
+**Casos de uso práticos:**
+
+1. **Cardápio sazonal:**
+   ```
+   Verão: Ativa saladas, desativa sopas
+   Inverno: Desativa saladas, ativa sopas
+   ```
+
+2. **Falta de ingrediente:**
+   ```
+   Acabou camarão? → Desativa Moqueca de Camarão
+   Chegou camarão? → Reativa Moqueca de Camarão
+   ```
+
+3. **Teste de novos pratos:**
+   ```
+   Segunda: Ativa "Brigadeiro de Beterraba" (teste)
+   Ninguém gostou? → Desativa
+   Pessoal adorou? → Mantém ativo
+   ```
+
+4. **Dia da semana:**
+   ```
+   Segunda a sexta: Menu executivo ativo
+   Fim de semana: Menu executivo desativado, menu especial ativo
+   ```
+
+---
+
+### 🎯 Diferença: Função vs Procedimento
+
+Pense assim:
+
+**FUNÇÃO = Pergunta que tem resposta**
+- Você pergunta algo
+- Ela RESPONDE sim ou não, um número, um texto...
+- Exemplos:
+  - "É low carb?" → Resposta: Sim ou Não
+  - "Que horas são?" → Resposta: 14:35
+
+**PROCEDIMENTO = Botão que FAZ algo**
+- Você aperta
+- Ele FAZ uma ação
+- NÃO responde nada, só executa
+- Exemplos:
+  - Botão "Ativar/Desativar" → Muda status do prato
+  - Botão "Salvar" → Salva informações
+
+**Tabela Comparativa Simples:**
+
+| Característica | Função | Procedimento |
+|----------------|---------|--------------|
+| **Analogia** | Calculadora | Botão de ação |
+| **O que faz** | Responde pergunta | Executa tarefa |
+| **Retorna algo?** | ✅ Sim (resposta) | ❌ Não (só faz) |
+| **Exemplo nosso** | "É low carb?" | "Ativar/Desativar prato" |
+| **Quando usar** | Preciso saber algo | Preciso fazer algo |
+
+---
+
+### 🤔 Por Que Temos Poucas Funções e Procedimentos?
+
+**Você pode estar pensando:** "Por que só 3? Não dá pra fazer mais?"
+
+**Resposta:** Dá, mas não precisamos! 
+
+**Analogia:**
+Imagine sua cozinha em casa:
+- **Você tem:** Fogão, geladeira, micro-ondas (essencial)
+- **Você NÃO tem:** Forno industrial, fritadeira profissional, máquina de sorvete
+- **Por quê?** Você cozinha em casa, não num restaurante grande
+
+Nosso sistema é assim:
+- **MySQL:** Guarda os dados (essencial)
+- **NestJS (Backend):** Faz a maioria das tarefas (essencial)
+- **Functions/Procedures:** Só para tarefas especiais (complemento)
+
+**Quando VALE a pena criar função ou procedimento:**
+
+✅ **Vale criar:**
+1. Coisa que o banco faz MUITO melhor que o código
+   - Exemplo: Contar pratos low carb (olha direto na tabela)
+2. Coisa que é usada em vários lugares
+   - Exemplo: Verificar hora atual (triggers usam)
+3. Coisa que economiza tempo
+   - Exemplo: Ativar/desativar em 1 clique
+
+❌ **NÃO vale criar:**
+1. Coisas simples que o backend já faz
+   - Exemplo: Criar prato novo (backend faz melhor)
+2. Coisas que mudam muito
+   - Exemplo: Regras de negócio (mais fácil mudar no código)
+3. Coisas complicadas
+   - Exemplo: Enviar email (banco não sabe fazer isso)
+
+**Vantagens de ter poucas:**
+- ✅ Sistema mais simples de entender
+- ✅ Mais fácil de consertar se quebrar
+- ✅ Backend (NestJS) faz a maioria (é pra isso que ele serve!)
+- ✅ Testes são mais fáceis
+
+---
+
+### 📋 Resumo dos Nossos Ajudantes
+
+| Nome | Tipo | O Que Faz | Quando Usar |
+|------|------|-----------|-------------|
+| **get_current_timestamp** | Função | Retorna hora atual | Automaticamente (triggers) |
+| **eh_low_carb** | Função | Diz se prato é low carb | Filtrar pratos por dieta |
+| **toggle_status_prato** | Procedimento | Liga/desliga prato | Gerenciar cardápio |
+
+**Em resumo:**
+São como **3 assistentes especializados** que fazem tarefas específicas muito bem, deixando o sistema mais eficiente e fácil de usar! 🎯
+
+---
+
+## 1.4 Segurança e Controle de Acesso
 
 ### O que são Funções e Papéis?
 

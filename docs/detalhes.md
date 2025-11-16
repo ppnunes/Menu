@@ -149,7 +149,9 @@ GROUP BY p.id, p.nome, p.tipo, p.origem, p.descricao;
 
 #### Procedures e Functions
 
-O sistema possui **1 function** implementada:
+O sistema possui **2 functions** e **1 procedure** implementadas:
+
+**FUNCTIONS:**
 
 1. **get_current_timestamp()**
    - **Tipo:** FUNCTION
@@ -158,23 +160,154 @@ O sistema possui **1 function** implementada:
    - **Uso:** Utilizada pelos triggers para garantir consistência temporal
    - **Justificativa:** Centraliza lógica de timestamp, permitindo futuras customizações (ex: timezone, formatação)
    - **Características:** DETERMINISTIC, NO SQL (otimizada)
+   - **Implementação:**
+   ```sql
+   CREATE FUNCTION get_current_timestamp()
+   RETURNS TIMESTAMP
+   DETERMINISTIC
+   NO SQL
+   BEGIN
+       RETURN CURRENT_TIMESTAMP;
+   END;
+   ```
+   - **Exemplo de Uso:**
+   ```sql
+   -- Usado internamente pelos triggers
+   UPDATE prato SET atualizado_em = get_current_timestamp() WHERE id = 'xxx';
+   ```
 
-**Implementação:**
-```sql
-CREATE FUNCTION get_current_timestamp()
-RETURNS TIMESTAMP
-DETERMINISTIC
-NO SQL
-BEGIN
-    RETURN CURRENT_TIMESTAMP;
-END;
-```
+2. **eh_low_carb(p_prato_id CHAR(36))**
+   - **Tipo:** FUNCTION
+   - **Retorno:** BOOLEAN (TRUE/FALSE)
+   - **Função:** Verifica se um prato é considerado low carb (menos de 20g de carboidratos)
+   - **Parâmetros:**
+     - `p_prato_id`: UUID do prato a ser verificado
+   - **Justificativa:** Facilita filtros nutricionais específicos sem necessidade de lógica no backend
+   - **Características:** READS SQL DATA (acessa tabela prato)
+   - **Implementação:**
+   ```sql
+   CREATE FUNCTION eh_low_carb(p_prato_id CHAR(36))
+   RETURNS BOOLEAN
+   READS SQL DATA
+   BEGIN
+       DECLARE carbs DECIMAL(8,2);
+       SELECT carboidratos INTO carbs
+       FROM prato
+       WHERE id = p_prato_id;
+       
+       -- Retorna TRUE se carboidratos < 20g
+       RETURN carbs < 20.0;
+   END;
+   ```
+   - **Exemplos de Uso:**
+   ```sql
+   -- Verificar se um prato específico é low carb
+   SELECT eh_low_carb('550e8400-e29b-41d4-a716-446655440000');
+   -- Retorna: 1 (TRUE) ou 0 (FALSE)
+   
+   -- Listar todos os pratos low carb
+   SELECT id, nome, carboidratos, eh_low_carb(id) AS is_low_carb
+   FROM prato
+   WHERE eh_low_carb(id) = TRUE;
+   
+   -- Contar quantos pratos low carb existem
+   SELECT COUNT(*) AS total_low_carb
+   FROM prato
+   WHERE eh_low_carb(id) = TRUE AND ativo = TRUE;
+   ```
+   - **Casos de Uso:**
+     - Filtrar cardápios para dietas low carb
+     - Relatórios nutricionais segmentados
+     - Recomendações personalizadas
 
-**Por que não mais procedures?**
-- O sistema utiliza **TypeORM** no backend, que abstrai operações CRUD
-- Procedures seriam redundantes com a lógica já implementada no NestJS
-- Mantém separação de responsabilidades: MySQL para dados, NestJS para lógica de negócio
-- Facilita testes unitários e manutenção
+**PROCEDURES:**
+
+1. **toggle_status_prato(p_prato_id CHAR(36))**
+   - **Tipo:** STORED PROCEDURE
+   - **Retorno:** Void (apenas executa ação)
+   - **Função:** Alterna o status ativo/inativo de um prato (ativo = TRUE ↔ FALSE)
+   - **Parâmetros:**
+     - `p_prato_id`: UUID do prato a ter status alternado
+   - **Justificativa:** Simplifica operação comum de ativar/desativar pratos sem lógica condicional no backend
+   - **Comportamento:**
+     - Se `ativo = TRUE`, muda para `FALSE` (desativa)
+     - Se `ativo = FALSE`, muda para `TRUE` (reativa)
+   - **Implementação:**
+   ```sql
+   CREATE PROCEDURE toggle_status_prato(
+       IN p_prato_id CHAR(36)
+   )
+   BEGIN
+       UPDATE prato
+       SET ativo = NOT ativo
+       WHERE id = p_prato_id;
+   END;
+   ```
+   - **Exemplos de Uso:**
+   ```sql
+   -- Desativar um prato que está ativo (soft delete)
+   CALL toggle_status_prato('550e8400-e29b-41d4-a716-446655440000');
+   
+   -- Reativar o mesmo prato (chamando novamente)
+   CALL toggle_status_prato('550e8400-e29b-41d4-a716-446655440000');
+   
+   -- Ver resultado da operação
+   SELECT id, nome, ativo FROM prato WHERE id = '550e8400-e29b-41d4-a716-446655440000';
+   ```
+   - **Casos de Uso:**
+     - Soft delete: desativar pratos temporariamente sem deletar dados
+     - Gerenciamento de cardápio sazonal
+     - Controle de disponibilidade de pratos
+     - Testes de A/B em menus
+
+**Comparação: Functions vs Procedures**
+
+| Característica | Functions | Procedures |
+|----------------|-----------|------------|
+| **Retorno** | Sempre retorna um valor | Pode ou não retornar |
+| **Uso em SELECT** | ✅ Sim | ❌ Não |
+| **Uso em WHERE** | ✅ Sim | ❌ Não |
+| **Modificação de Dados** | ⚠️ Limitado | ✅ Sim |
+| **Chamada** | `SELECT funcao()` | `CALL procedure()` |
+| **Exemplo** | `eh_low_carb(id)` | `toggle_status_prato(id)` |
+
+**Por que poucas procedures/functions?**
+
+O sistema utiliza **TypeORM** no backend NestJS, que abstrai a maioria das operações CRUD. As procedures e functions implementadas focam em:
+
+1. **Lógica Específica do Banco:** Operações que se beneficiam de execução no servidor MySQL
+2. **Reutilização:** Funções utilizadas por triggers ou múltiplas queries
+3. **Performance:** Operações que evitam round-trips desnecessários entre backend e banco
+4. **Separação de Responsabilidades:**
+   - MySQL: Lógica de dados e integridade
+   - NestJS: Lógica de negócio e orquestração
+   - React: Lógica de apresentação
+
+**Benefícios das Functions/Procedures Implementadas:**
+
+1. **get_current_timestamp():**
+   - ✅ Timestamps consistentes em todos os triggers
+   - ✅ Facilita futuras mudanças (ex: adicionar timezone)
+   - ✅ Ponto único de manutenção
+
+2. **eh_low_carb():**
+   - ✅ Lógica nutricional centralizada
+   - ✅ Pode ser usada em queries complexas
+   - ✅ Facilita relatórios e filtros
+
+3. **toggle_status_prato():**
+   - ✅ Operação atômica (não requer lógica condicional)
+   - ✅ Simplifica código do backend
+   - ✅ Reduz latência (uma única chamada ao banco)
+
+**Integração com o Backend:**
+
+Embora as procedures/functions estejam disponíveis, o backend NestJS atualmente não as utiliza diretamente por preferir manter a lógica de negócio no código TypeScript. Porém, elas podem ser úteis para:
+
+- Operações diretas via MySQL Workbench ou CLI
+- Scripts de manutenção e migração
+- Relatórios e análises ad-hoc
+- Futura implementação de jobs agendados no banco
 
 
 #### Usuários e Controle de Acesso
