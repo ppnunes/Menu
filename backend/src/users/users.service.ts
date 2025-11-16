@@ -94,6 +94,14 @@ export class UsersService {
     const usuario = await this.usuarioRepository.findOne({
       where: { id },
       relations: ['grupos'],
+      select: {
+        id: true,
+        nome: true,
+        email: true,
+        ativo: true,
+        criadoEm: true,
+        atualizadoEm: true,
+      },
     });
 
     if (!usuario) {

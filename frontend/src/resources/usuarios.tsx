@@ -26,7 +26,7 @@ import {
 // List
 export const UsuarioList = () => (
   <List>
-    <Datagrid rowClick="edit">
+    <Datagrid rowClick="show">
       <TextField source="nome" label="Nome" />
       <EmailField source="email" label="Email" />
       <BooleanField source="ativo" label="Ativo" />
