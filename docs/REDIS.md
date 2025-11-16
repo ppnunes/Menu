@@ -7,7 +7,7 @@ A aplicação agora utiliza **Redis** como sistema de cache distribuído.
 - **Redis Server** instalado e rodando
 - Porta padrão: `6379`
 
-## 🚀 Instalação do Redis
+##  Instalação do Redis
 
 ### macOS (usando Homebrew)
 ```bash
@@ -86,7 +86,7 @@ docker run --name redis-cache -p 6379:6379 -d redis:7-alpine
 docker ps | grep redis
 ```
 
-## 📝 Configuração
+##  Configuração
 
 As variáveis de ambiente no arquivo `.env`:
 
@@ -119,7 +119,7 @@ PONG
 127.0.0.1:6379> FLUSHALL
 ```
 
-## 📊 Monitoramento
+##  Monitoramento
 
 ### Ver comandos em tempo real
 ```bash
@@ -136,7 +136,7 @@ redis-cli INFO
 redis-cli INFO memory
 ```
 
-## 🔧 Estrutura das Chaves de Cache
+##  Estrutura das Chaves de Cache
 
 A aplicação usa os seguintes padrões de chaves:
 
@@ -148,7 +148,7 @@ A aplicação usa os seguintes padrões de chaves:
 - `grupos:{id}` - Grupo individual
 - `ingredientes:prato:{pratoId}` - Ingredientes de um prato específico
 
-## 🧹 Gerenciamento de Cache
+##  Gerenciamento de Cache
 
 ### Limpar cache específico
 ```bash
@@ -170,7 +170,7 @@ Para verificar quanto tempo falta para uma chave expirar:
 redis-cli TTL "pratos:list:0:10:criadoEm:DESC"
 ```
 
-## 🐛 Troubleshooting
+##  Troubleshooting
 
 ### Erro: "ECONNREFUSED"
 O Redis não está rodando. Inicie o servidor:
@@ -208,7 +208,7 @@ Verifique os logs da aplicação:
 npm run start:dev
 ```
 
-## 🔄 Voltar para Cache em Memória
+##  Voltar para Cache em Memória
 
 Se preferir usar cache em memória ao invés do Redis, edite `src/app.module.ts`:
 
@@ -226,15 +226,15 @@ E desinstalar as dependências do Redis:
 npm uninstall cache-manager-redis-yet redis
 ```
 
-## 📚 Benefícios do Redis
+##  Benefícios do Redis
 
-- ✅ **Cache distribuído**: Múltiplas instâncias da API compartilham o mesmo cache
-- ✅ **Persistência**: Cache sobrevive a reinicializações da aplicação
-- ✅ **Performance**: Operações extremamente rápidas (microsegundos)
-- ✅ **Escalabilidade**: Suporta grandes volumes de dados
-- ✅ **Monitoramento**: Ferramentas robustas para análise e debug
+-  **Cache distribuído**: Múltiplas instâncias da API compartilham o mesmo cache
+-  **Persistência**: Cache sobrevive a reinicializações da aplicação
+-  **Performance**: Operações extremamente rápidas (microsegundos)
+-  **Escalabilidade**: Suporta grandes volumes de dados
+-  **Monitoramento**: Ferramentas robustas para análise e debug
 
-## 🔐 Segurança em Produção
+##  Segurança em Produção
 
 1. **Sempre use senha** no Redis em produção
 2. **Configure firewall** para permitir acesso apenas de IPs confiáveis
