@@ -55,7 +55,7 @@ const App = () => (
           />
         )}
 
-        {/* Grupos - Apenas administrador */}
+        {/* Grupos - Apenas administrador (leitura) */}
         {permissions === 'administrador' && (
           <Resource
             name="grupos"

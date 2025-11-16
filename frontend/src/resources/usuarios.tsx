@@ -19,6 +19,8 @@ import {
   required,
   email,
   minLength,
+  ReferenceArrayInput,
+  AutocompleteArrayInput,
 } from 'react-admin';
 
 // List
@@ -39,25 +41,51 @@ export const UsuarioList = () => (
 );
 
 // Edit
-export const UsuarioEdit = () => (
-  <Edit>
-    <SimpleForm>
-      <TextInput source="nome" label="Nome" validate={[required()]} fullWidth />
-      <TextInput
-        source="email"
-        label="Email"
-        validate={[required(), email()]}
-        fullWidth
-      />
-      <PasswordInput
-        source="senha"
-        label="Nova Senha (deixe em branco para não alterar)"
-        fullWidth
-      />
-      <BooleanInput source="ativo" label="Ativo" />
-    </SimpleForm>
-  </Edit>
-);
+export const UsuarioEdit = () => {
+  const transform = (data: any) => {
+    // Remover campos que não devem ser enviados ao backend
+    const { id, criadoEm, atualizadoEm, grupos, ...cleanData } = data;
+    
+    // Se senha estiver vazia, remover do payload
+    if (cleanData.senha === '' || cleanData.senha === null || cleanData.senha === undefined) {
+      delete cleanData.senha;
+    }
+    
+    return cleanData;
+  };
+
+  return (
+    <Edit transform={transform}>
+      <SimpleForm>
+        <TextInput source="nome" label="Nome" validate={[required()]} fullWidth />
+        <TextInput
+          source="email"
+          label="Email"
+          validate={[required(), email()]}
+          fullWidth
+        />
+        <PasswordInput
+          source="senha"
+          label="Nova Senha (deixe em branco para não alterar)"
+          fullWidth
+        />
+        <BooleanInput source="ativo" label="Ativo" />
+        <ReferenceArrayInput
+          source="grupoIds"
+          reference="grupos"
+          label="Grupos"
+        >
+          <AutocompleteArrayInput
+            optionText="nome"
+            optionValue="id"
+            fullWidth
+            helperText="Selecione os grupos aos quais o usuário pertence"
+          />
+        </ReferenceArrayInput>
+      </SimpleForm>
+    </Edit>
+  );
+};
 
 // Create
 export const UsuarioCreate = () => (
@@ -76,6 +104,18 @@ export const UsuarioCreate = () => (
         validate={[required(), minLength(6)]}
         fullWidth
       />
+      <ReferenceArrayInput
+        source="grupoIds"
+        reference="grupos"
+        label="Grupos"
+      >
+        <AutocompleteArrayInput
+          optionText="nome"
+          optionValue="id"
+          fullWidth
+          helperText="Selecione os grupos aos quais o usuário pertence"
+        />
+      </ReferenceArrayInput>
     </SimpleForm>
   </Create>
 );

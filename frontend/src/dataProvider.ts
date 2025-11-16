@@ -41,9 +41,15 @@ export const dataProvider: DataProvider = {
   },
 
   getOne: (resource, params) =>
-    httpClient(`${apiUrl}/${resource}/${params.id}`).then(({ json }) => ({
-      data: json,
-    })),
+    httpClient(`${apiUrl}/${resource}/${params.id}`).then(({ json }) => {
+      // Para usuários, converter grupos para grupoIds no getOne
+      if (resource === 'usuarios' && json.grupos) {
+        json.grupoIds = json.grupos.map((g: any) => g.id);
+      }
+      return {
+        data: json,
+      };
+    }),
 
   getMany: (resource, params) => {
     const query = {

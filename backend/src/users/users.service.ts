@@ -1,7 +1,8 @@
 import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, In } from 'typeorm';
 import { Usuario } from './usuario.entity';
+import { Grupo } from '../grupos/grupo.entity';
 import { CreateUsuarioDto, UpdateUsuarioDto } from './dto/usuario.dto';
 import * as bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
@@ -11,6 +12,8 @@ export class UsersService {
   constructor(
     @InjectRepository(Usuario)
     private usuarioRepository: Repository<Usuario>,
+    @InjectRepository(Grupo)
+    private grupoRepository: Repository<Grupo>,
   ) {}
 
   async create(createUsuarioDto: CreateUsuarioDto): Promise<Usuario> {
@@ -26,9 +29,23 @@ export class UsersService {
 
     const usuario = this.usuarioRepository.create({
       id: uuidv4(),
-      ...createUsuarioDto,
+      nome: createUsuarioDto.nome,
+      email: createUsuarioDto.email,
       senha: hashedPassword,
     });
+
+    // Se grupos foram fornecidos, associá-los
+    if (createUsuarioDto.grupoIds && createUsuarioDto.grupoIds.length > 0) {
+      const grupos = await this.grupoRepository.findBy({
+        id: In(createUsuarioDto.grupoIds),
+      });
+
+      if (grupos.length !== createUsuarioDto.grupoIds.length) {
+        throw new NotFoundException('Um ou mais grupos não foram encontrados');
+      }
+
+      usuario.grupos = grupos;
+    }
 
     return this.usuarioRepository.save(usuario);
   }
@@ -110,7 +127,38 @@ export class UsersService {
       updateUsuarioDto.senha = await bcrypt.hash(updateUsuarioDto.senha, 10);
     }
 
-    Object.assign(usuario, updateUsuarioDto);
+    // Atualizar grupos se fornecidos
+    if (updateUsuarioDto.grupoIds !== undefined) {
+      if (updateUsuarioDto.grupoIds.length > 0) {
+        const grupos = await this.grupoRepository.findBy({
+          id: In(updateUsuarioDto.grupoIds),
+        });
+
+        if (grupos.length !== updateUsuarioDto.grupoIds.length) {
+          throw new NotFoundException('Um ou mais grupos não foram encontrados');
+        }
+
+        usuario.grupos = grupos;
+      } else {
+        // Se array vazio, remover todos os grupos
+        usuario.grupos = [];
+      }
+    }
+
+    // Atualizar outros campos
+    if (updateUsuarioDto.nome !== undefined) {
+      usuario.nome = updateUsuarioDto.nome;
+    }
+    if (updateUsuarioDto.email !== undefined) {
+      usuario.email = updateUsuarioDto.email;
+    }
+    if (updateUsuarioDto.senha !== undefined) {
+      usuario.senha = updateUsuarioDto.senha;
+    }
+    if (updateUsuarioDto.ativo !== undefined) {
+      usuario.ativo = updateUsuarioDto.ativo;
+    }
+
     return this.usuarioRepository.save(usuario);
   }
 
