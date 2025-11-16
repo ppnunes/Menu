@@ -1,6 +1,6 @@
 # Guia de Instalação e Configuração - Menu API
 
-## 📋 Pré-requisitos
+##  Pré-requisitos
 
 Antes de começar, certifique-se de ter instalado:
 - **Node.js** (v18 ou superior)
@@ -8,7 +8,7 @@ Antes de começar, certifique-se de ter instalado:
 - **Redis** (v6 ou superior)
 - **npm** ou **yarn**
 
-## 🚀 Passo a Passo
+##  Passo a Passo
 
 ### 1. Instalar as dependências
 
@@ -87,16 +87,16 @@ npm run start:prod
 - **API**: http://localhost:3000
 - **Documentação Swagger**: http://localhost:3000/api
 
-## 🔐 Credenciais Padrão
+##  Credenciais Padrão
 
 O script SQL cria um usuário administrador padrão:
 
 - **Email**: admin@menu.com
 - **Senha**: admin123
 
-**⚠️ IMPORTANTE:** Altere esta senha em produção!
+** IMPORTANTE:** Altere esta senha em produção!
 
-## 📚 Endpoints Principais
+##  Endpoints Principais
 
 ### Autenticação
 - `POST /auth/login` - Realizar login
@@ -125,7 +125,7 @@ O script SQL cria um usuário administrador padrão:
 - `GET /ingredientes/prato/:pratoId` - Listar ingredientes de um prato
 - `GET /ingredientes/:id` - Buscar ingrediente
 
-## 🧪 Testando a API
+##  Testando a API
 
 ### 1. Fazer login
 
@@ -170,7 +170,7 @@ curl -X POST http://localhost:3000/pratos \
   }'
 ```
 
-## 🎭 Roles e Permissões
+##  Roles e Permissões
 
 ### Administrador
 - Acesso total a todas as rotas
@@ -184,7 +184,7 @@ curl -X POST http://localhost:3000/pratos \
 - Visualizar pratos (acesso público, não requer autenticação)
 - Filtrar pratos por tipo e origem
 
-## 🐛 Solução de Problemas
+##  Solução de Problemas
 
 ### Erro de conexão com MySQL
 - Verifique se o MySQL está rodando: `mysql.server status` (macOS) ou `sudo systemctl status mysql` (Linux)
@@ -198,7 +198,7 @@ curl -X POST http://localhost:3000/pratos \
 ### Porta já em uso
 - Mude a porta no arquivo `.env`: `PORT=3001`
 
-## 📦 Scripts Disponíveis
+##  Scripts Disponíveis
 
 ```bash
 npm run start          # Iniciar em modo normal
