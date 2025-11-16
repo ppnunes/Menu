@@ -10,7 +10,7 @@ export const AppBar = (props: any) => {
       <Box sx={{ flex: 1, display: 'flex', alignItems: 'center', gap: 1 }}>
         <RestaurantMenuIcon />
         <Typography variant="h6" color="inherit" sx={{ flexGrow: 1 }}>
-          Menu Admin
+          Menu Online
         </Typography>
       </Box>
       {identity && (

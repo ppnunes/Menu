@@ -32,7 +32,7 @@ export const Dashboard = () => {
   return (
     <Box sx={{ padding: 2 }}>
       <Typography variant="h4" gutterBottom>
-        Dashboard - Menu Admin
+        Menu Online
       </Typography>
       <Typography variant="body1" gutterBottom sx={{ mb: 3 }}>
         Bem-vindo ao sistema de gerenciamento de pratos!
@@ -57,9 +57,6 @@ export const Dashboard = () => {
       <Card sx={{ mt: 3 }}>
         <CardHeader title="Suas Permissões" />
         <CardContent>
-          <Typography variant="body1">
-            <strong>Role:</strong> {permissions || 'Carregando...'}
-          </Typography>
           <Typography variant="body2" sx={{ mt: 2 }}>
             {permissions === 'administrador' && '✓ Acesso completo ao sistema'}
             {permissions === 'nutricionista' && '✓ Gerenciar pratos e ingredientes'}

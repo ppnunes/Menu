@@ -14,7 +14,7 @@ import GroupIcon from '@mui/icons-material/Group';
 // Components
 import { PratoList, PratoEdit, PratoCreate, PratoShow } from './resources/pratos';
 import { UsuarioList, UsuarioEdit, UsuarioCreate, UsuarioShow } from './resources/usuarios';
-import { GrupoList } from './resources/grupos';
+import { GrupoList, GrupoShow } from './resources/grupos';
 import { Dashboard } from './Dashboard';
 import { LoginPage } from './LoginPage';
 import { Layout } from './Layout';
@@ -27,7 +27,7 @@ const App = () => (
     dashboard={Dashboard}
     loginPage={LoginPage}
     layout={Layout}
-    title="Menu Admin"
+    title="Menu Online"
   >
     {(permissions) => (
       <>
@@ -60,6 +60,7 @@ const App = () => (
           <Resource
             name="grupos"
             list={GrupoList}
+            show={GrupoShow}
             icon={GroupIcon}
             options={{ label: 'Grupos' }}
           />

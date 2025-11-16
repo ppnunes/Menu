@@ -27,7 +27,7 @@ export const LoginPage = () => (
         >
           <RestaurantMenuIcon sx={{ fontSize: 40, color: 'primary.main' }} />
           <Typography variant="h5" component="h1">
-            Menu Admin
+            Menu Online
           </Typography>
         </Box>
         <CardContent>
