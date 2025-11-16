@@ -1,6 +1,6 @@
 # Estrutura do Projeto Menu API
 
-## 📁 Estrutura de Diretórios
+##  Estrutura de Diretórios
 
 ```
 backend/
@@ -64,7 +64,7 @@ bd/
 └── schema.sql                     # Script SQL do banco
 ```
 
-## 🔑 Conceitos Principais
+## Conceitos Principais
 
 ### Entidades (TypeORM)
 
@@ -105,7 +105,7 @@ O serviço de pratos usa Redis para cache:
 - Invalidação de cache em operações de escrita
 - TTL configurável (padrão: 300 segundos)
 
-## 🔐 Autenticação e Autorização
+## Autenticação e Autorização
 
 ### Fluxo de Autenticação
 
@@ -131,7 +131,7 @@ usuario_comum
 └── Leitura pública de pratos (não requer autenticação)
 ```
 
-## 🎯 Endpoints por Role
+##  Endpoints por Role
 
 ### Públicos (sem autenticação)
 - `GET /pratos`
@@ -156,7 +156,7 @@ usuario_comum
 - `GET /grupos`
 - `GET /grupos/:id`
 
-## 🗄️ Banco de Dados
+##  Banco de Dados
 
 ### Relacionamentos
 
@@ -183,7 +183,7 @@ Views para acesso simplificado:
 - `view_pratos_indianos`
 - `view_pratos_completos` (com ingredientes)
 
-## 🚀 Fluxo de Requisição
+##  Fluxo de Requisição
 
 ```
 Cliente → Controller → Guard → Service → Repository → Database
@@ -195,7 +195,7 @@ Cliente → Controller → Guard → Service → Repository → Database
            Response
 ```
 
-## 📊 Swagger/OpenAPI
+##  Swagger/OpenAPI
 
 A documentação da API é gerada automaticamente em `/api`:
 
@@ -206,7 +206,7 @@ A documentação da API é gerada automaticamente em `/api`:
 - Exportação para JSON (`/api-json`)
 
 
-## 📚 Referências
+##  Referências
 
 - [Documentação NestJS](https://docs.nestjs.com/)
 - [TypeORM](https://typeorm.io/)
