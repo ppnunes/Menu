@@ -114,11 +114,12 @@ export const dataProvider: DataProvider = {
     }).then(({ json }) => ({ data: json })),
 
   deleteMany: (resource, params) => {
-    const query = {
-      id: params.ids,
-    };
-    return httpClient(`${apiUrl}/${resource}?${queryString.stringify(query)}`, {
-      method: 'DELETE',
-    }).then(({ json }) => ({ data: json }));
+    return Promise.all(
+      params.ids.map(id =>
+        httpClient(`${apiUrl}/${resource}/${id}`, {
+          method: 'DELETE',
+        })
+      )
+    ).then(() => ({ data: params.ids }));
   },
 };
