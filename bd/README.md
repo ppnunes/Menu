@@ -126,7 +126,10 @@ menu_db
 │   ├── view_pratos_indianos
 │   └── view_pratos_completos
 ├── Função
+│   ├── eh_low_carb(<id>)
 │   └── get_current_timestamp()
+└── Procedimentos
+│   └── toggle_status_prato(<id>)
 └── Triggers
     ├── UUID generation (5 triggers)
     └── Timestamp updates (4 triggers)
